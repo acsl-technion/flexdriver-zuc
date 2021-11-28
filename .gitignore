@@ -1,0 +1,11 @@
+/Bitstreams/
+/Implement/
+/Synth/
+
+tags
+\#*\#
+*~
+.*.swp
+vivado*.jou
+vivado*.log
+vivado*.str
