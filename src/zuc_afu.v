@@ -838,7 +838,6 @@ localparam
 	// counter0
 	// [31:16]  - per channel, data_flits count > 0, in input buffer. chidx at bit [x]
 	// [15:0]   - per channel, message count > 0, in input buffer. chidx at bit [x]
-//	afu_counter0 <= {8'h00, fifo_in_free_regD, messages_validD};
 	afu_counter0 <= {chid_in_buffers_not_empty, messages_validD};
 
 	// counter1: AFU status
@@ -1045,22 +1044,6 @@ localparam
   reg [11:0]   chid15_in_message_id;
 
   reg [9:0]   chid_in_message_count[NUM_CHANNELS-1:0];
-//  reg [9:0]   chid0_in_message_count;
-//  reg [9:0]   chid1_in_message_count;
-//  reg [9:0]   chid2_in_message_count;
-//  reg [9:0]   chid3_in_message_count;
-//  reg [9:0]   chid4_in_message_count;
-//  reg [9:0]   chid5_in_message_count;
-//  reg [9:0]   chid6_in_message_count;
-//  reg [9:0]   chid7_in_message_count;
-//  reg [9:0]   chid8_in_message_count;
-//  reg [9:0]   chid9_in_message_count;
-//  reg [9:0]   chid10_in_message_count;
-//  reg [9:0]   chid11_in_message_count;
-//  reg [9:0]   chid12_in_message_count;
-//  reg [9:0]   chid13_in_message_count;
-//  reg [9:0]   chid14_in_message_count;
-//  reg [9:0]   chid15_in_message_count;
 
   reg [31:0]   total_chid0_in_message_count;
   reg [31:0]   total_chid1_in_message_count;
@@ -1203,7 +1186,6 @@ localparam
   reg 	       fifo_in_readyD;
   reg 	       fifo_in_readyQ;
   reg 	       input_buffer_write;
-//  reg 	       input_buffer_eth_write;
   reg 	       input_buffer_meta_write;
   reg 	       input_buffer_wren;
   reg 	       write_eth_header;
@@ -1799,112 +1781,96 @@ localparam
       // message_count is a common register to both write & read operations, so no need for an in/out identifier
       // Unsigned count, max 256 messages/channel: 512 (=8K/16) entries/channel, minimum 1024b/message
       // Both input_buffer write & read state machines affect this count register
-//      chid0_in_message_count <= 0;
       chid1_out_head <= {4'h1, 9'h000};
       chid1_in_tail <= {4'h1, 9'h000};
       chid1_in_message_start <= {4'h1, 9'h000};
       chid1_in_som <= 1'b1;
       chid1_in_message_id <= 12'h000;
       chid1_in_message_lines <= 10'h000;
-//      chid1_in_message_count <= 0;
       chid2_out_head <= {4'h2, 9'b0};
       chid2_in_tail <= {4'h2, 9'b0};
       chid2_in_message_start <= {4'h2, 9'b0};
       chid2_in_som <= 1'b1;
       chid2_in_message_id <= 12'h000;
       chid2_in_message_lines <= 10'h000;
-//      chid2_in_message_count <= 0;
       chid3_out_head <= {4'h3, 9'b0};
       chid3_in_tail <= {4'h3, 9'b0};
       chid3_in_message_start <= {4'h3, 9'b0};
       chid3_in_som <= 1'b1;
       chid3_in_message_id <= 12'h000;
       chid3_in_message_lines <= 10'h000;
-//      chid3_in_message_count <= 0;
       chid4_out_head <= {4'h4, 9'b0};
       chid4_in_tail <= {4'h4, 9'b0};
       chid4_in_message_start <= {4'h4, 9'b0};
       chid4_in_som <= 1'b1;
       chid4_in_message_id <= 12'h000;
       chid4_in_message_lines <= 10'h000;
-//      chid4_in_message_count <= 0;
       chid5_out_head <= {4'h5, 9'b0};
       chid5_in_tail <= {4'h5, 9'b0};
       chid5_in_message_start <= {4'h5, 9'b0};
       chid5_in_som <= 1'b1;
       chid5_in_message_id <= 12'h000;
       chid5_in_message_lines <= 10'h000;
-//      chid5_in_message_count <= 0;
       chid6_out_head <= {4'h6, 9'b0};
       chid6_in_tail <= {4'h6, 9'b0};
       chid6_in_message_start <= {4'h6, 9'b0};
       chid6_in_som <= 1'b1;
       chid6_in_message_id <= 12'h000;
       chid6_in_message_lines <= 10'h000;
-//      chid6_in_message_count <= 0;
       chid7_out_head <= {4'h7, 9'b0};
       chid7_in_tail <= {4'h7, 9'b0};
       chid7_in_message_start <= {4'h7, 9'b0};
       chid7_in_som <= 1'b1;
       chid7_in_message_id <= 12'h000;
       chid7_in_message_lines <= 10'h000;
-//      chid7_in_message_count <= 0;
       chid8_out_head <= {4'h8, 9'b0};
       chid8_in_tail <= {4'h8, 9'b0};
       chid8_in_message_start <= {4'h8, 9'b0};
       chid8_in_som <= 1'b1;
       chid8_in_message_id <= 12'h000;
       chid8_in_message_lines <= 10'h000;
-//      chid8_in_message_count <= 0;
       chid9_out_head <= {4'h9, 9'b0};
       chid9_in_tail <= {4'h9, 9'b0};
       chid9_in_message_start <= {4'h9, 9'b0};
       chid9_in_som <= 1'b1;
       chid9_in_message_id <= 12'h000;
       chid9_in_message_lines <= 10'h000;
-//      chid9_in_message_count <= 0;
       chid10_out_head <= {4'ha, 9'b0};
       chid10_in_tail <= {4'ha, 9'b0};
       chid10_in_message_start <= {4'ha, 9'b0};
       chid10_in_som <= 1'b1;
       chid10_in_message_id <= 12'h000;
       chid10_in_message_lines <= 10'h000;
-//      chid10_in_message_count <= 0;
       chid11_out_head <= {4'hb, 9'b0};
       chid11_in_tail <= {4'hb, 9'b0};
       chid11_in_message_start <= {4'hb, 9'b0};
       chid11_in_som <= 1'b1;
       chid11_in_message_id <= 12'h000;
       chid11_in_message_lines <= 10'h000;
-//      chid11_in_message_count <= 0;
       chid12_out_head <= {4'hc, 9'b0};
       chid12_in_tail <= {4'hc, 9'b0};
       chid12_in_message_start <= {4'hc, 9'b0};
       chid12_in_som <= 1'b1;
       chid12_in_message_id <= 12'h000;
       chid12_in_message_lines <= 10'h000;
-//      chid12_in_message_count <= 0;
       chid13_out_head <= {4'hd, 9'b0};
       chid13_in_tail <= {4'hd, 9'b0};
       chid13_in_message_start <= {4'hd, 9'b0};
       chid13_in_som <= 1'b1;
       chid13_in_message_id <= 12'h000;
       chid13_in_message_lines <= 10'h000;
-//      chid13_in_message_count <= 0;
       chid14_out_head <= {4'he, 9'b0};
       chid14_in_tail <= {4'he, 9'b0};
       chid14_in_message_start <= {4'he, 9'b0};
       chid14_in_som <= 1'b1;
       chid14_in_message_id <= 12'h000;
       chid14_in_message_lines <= 10'h000;
-//      chid14_in_message_count <= 0;
       chid15_out_head <= {4'hf, 9'b0};
       chid15_in_tail <= {4'hf, 9'b0};
       chid15_in_message_start <= {4'hf, 9'b0};
       chid15_in_som <= 1'b1;
       chid15_in_message_id <= 12'h000;
       chid15_in_message_lines <= 10'h000;
-//      chid15_in_message_count <= 0;
 
       // Accumulated in_mesage_count
       // Stuck at max_count
@@ -1954,7 +1920,6 @@ localparam
 		  chid0_in_message_id <= current_in_message_id;
 		  
 		  // Message count is not incremented if there are both inc and dec request at the same time
-//		  chid0_in_message_count <= chid0_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid0_in_message_count <= total_chid0_in_message_count + 1;
 		  
 		end
@@ -1969,7 +1934,6 @@ localparam
 		chid1_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid1_in_message_id <= current_in_message_id;
-//		  chid1_in_message_count <= chid1_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid1_in_message_count <= total_chid1_in_message_count + 1;
 		end
 	      end
@@ -1984,7 +1948,6 @@ localparam
 		chid2_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid2_in_message_id <= current_in_message_id;
-//		  chid2_in_message_count <= chid2_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid2_in_message_count <= total_chid2_in_message_count + 1;
 		end
 	      end
@@ -1999,7 +1962,6 @@ localparam
 		chid3_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid3_in_message_id <= current_in_message_id;
-//		  chid3_in_message_count <= chid3_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid3_in_message_count <= total_chid3_in_message_count + 1;
 		end
 	      end
@@ -2014,7 +1976,6 @@ localparam
 		chid4_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid4_in_message_id <= current_in_message_id;
-//		  chid4_in_message_count <= chid4_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid4_in_message_count <= total_chid4_in_message_count + 1;
 		end
 	      end
@@ -2029,7 +1990,6 @@ localparam
 		chid5_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid5_in_message_id <= current_in_message_id;
-//		  chid5_in_message_count <= chid5_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid5_in_message_count <= total_chid5_in_message_count + 1;
 		end
 	      end
@@ -2044,7 +2004,6 @@ localparam
 		chid6_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid6_in_message_id <= current_in_message_id;
-//		  chid6_in_message_count <= chid6_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid6_in_message_count <= total_chid6_in_message_count + 1;
 		end
 	      end
@@ -2059,7 +2018,6 @@ localparam
 		chid7_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid7_in_message_id <= current_in_message_id;
-//		  chid7_in_message_count <= chid7_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid7_in_message_count <= total_chid7_in_message_count + 1;
 		end
 	      end
@@ -2074,7 +2032,6 @@ localparam
 		chid8_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid8_in_message_id <= current_in_message_id;
-//		  chid8_in_message_count <= chid8_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid8_in_message_count <= total_chid8_in_message_count + 1;
 		end
 	      end
@@ -2089,7 +2046,6 @@ localparam
 		chid9_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid9_in_message_id <= current_in_message_id;
-//		  chid9_in_message_count <= chid9_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid9_in_message_count <= total_chid9_in_message_count + 1;
 		end
 	      end
@@ -2104,7 +2060,6 @@ localparam
 		chid10_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid10_in_message_id <= current_in_message_id;
-//		  chid10_in_message_count <= chid10_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid10_in_message_count <= total_chid10_in_message_count + 1;
 		end
 	      end
@@ -2119,7 +2074,6 @@ localparam
 		chid11_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid11_in_message_id <= current_in_message_id;
-//		  chid11_in_message_count <= chid11_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid11_in_message_count <= total_chid11_in_message_count + 1;
 		end
 	      end
@@ -2134,7 +2088,6 @@ localparam
 		chid12_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid12_in_message_id <= current_in_message_id;
-//		  chid12_in_message_count <= chid12_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid12_in_message_count <= total_chid12_in_message_count + 1;
 		end
 	      end
@@ -2149,7 +2102,6 @@ localparam
 		chid13_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid13_in_message_id <= current_in_message_id;
-//		  chid13_in_message_count <= chid13_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid13_in_message_count <= total_chid13_in_message_count + 1;
 		end
 	      end
@@ -2164,7 +2116,6 @@ localparam
 		chid14_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid14_in_message_id <= current_in_message_id;
-//		  chid14_in_message_count <= chid14_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid14_in_message_count <= total_chid14_in_message_count + 1;
 		end
 	      end
@@ -2179,7 +2130,6 @@ localparam
 		chid15_in_opcode <= current_in_opcode;
 		if (current_in_eom) begin
 		  chid15_in_message_id <= current_in_message_id;
-//		  chid15_in_message_count <= chid15_in_message_count + (update_channel_out_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 		  total_chid15_in_message_count <= total_chid15_in_message_count + 1;
 		end
 	      end
@@ -2198,113 +2148,95 @@ localparam
 	      begin
 		chid0_out_head <= current_out_head;
 		chid0_out_som <= current_out_som;
-
-		// Message count is not decremented if there is both inc and dec request at the same time
-//		chid0_in_message_count <= chid0_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    1:
 	      begin
 		chid1_out_head <= current_out_head;
 		chid1_out_som <= current_out_som;
-//		chid1_in_message_count <= chid1_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    2:
 	      begin
 		chid2_out_head <= current_out_head;
 		chid2_out_som <= current_out_som;
-//		chid2_in_message_count <= chid2_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    3:
 	      begin
 		chid3_out_head <= current_out_head;
 		chid3_out_som <= current_out_som;
-//		chid3_in_message_count <= chid3_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    4:
 	      begin
 		chid4_out_head <= current_out_head;
 		chid4_out_som <= current_out_som;
-//		chid4_in_message_count <= chid4_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    5:
 	      begin
 		chid5_out_head <= current_out_head;
 		chid5_out_som <= current_out_som;
-//		chid5_in_message_count <= chid5_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    6:
 	      begin
 		chid6_out_head <= current_out_head;
 		chid6_out_som <= current_out_som;
-//		chid6_in_message_count <= chid6_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    7:
 	      begin
 		chid7_out_head <= current_out_head;
 		chid7_out_som <= current_out_som;
-//		chid7_in_message_count <= chid7_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    8:
 	      begin
 		chid8_out_head <= current_out_head;
 		chid8_out_som <= current_out_som;
-//		chid8_in_message_count <= chid8_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    9:
 	      begin
 		chid9_out_head <= current_out_head;
 		chid9_out_som <= current_out_som;
-//		chid9_in_message_count <= chid9_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    10:
 	      begin
 		chid10_out_head <= current_out_head;
 		chid10_out_som <= current_out_som;
-//		chid10_in_message_count <= chid10_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    11:
 	      begin
 		chid11_out_head <= current_out_head;
 		chid11_out_som <= current_out_som;
-//		chid11_in_message_count <= chid11_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    12:
 	      begin
 		chid12_out_head <= current_out_head;
 		chid12_out_som <= current_out_som;
-//		chid12_in_message_count <= chid12_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    13:
 	      begin
 		chid13_out_head <= current_out_head;
 		chid13_out_som <= current_out_som;
-//		chid13_in_message_count <= chid13_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    14:
 	      begin
 		chid14_out_head <= current_out_head;
 		chid14_out_som <= current_out_som;
-//		chid14_in_message_count <= chid14_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    15:
 	      begin
 		chid15_out_head <= current_out_head;
 		chid15_out_som <= current_out_som;
-//		chid15_in_message_count <= chid15_in_message_count - (update_channel_in_regs && (current_in_chid == current_out_chid) ? 0 : 1);
 	      end
 	    
 	    default: begin
@@ -2862,11 +2794,6 @@ endgenerate
   // input_buffer watermark (see afu_ctrl0[9:0] configuration):
   // Since the watermark logic is handled outside the packet_in* SM, *watrmark_met is valid only if head and tail belong to current chid
   assign current_in_buffer_watermark_met = (current_in_buffer_data_countD >= input_buffer_watermark) ? 1'b1 : 1'b0;
-//  assign current_in_buffer_watermark_met = (current_in_tail[12:9] == current_in_chid) ?
-//					   ({1'b0, current_in_tail[8:0]} >= {1'b0, current_in_head[8:0]}) ?
-//					   ({1'b0, current_in_tail[8:0]} - {1'b0, current_in_head[8:0]}) >= input_buffer_watermark :
-//					   ({1'b0, current_in_head[8:0]} - {1'b0, current_in_tail[8:0]}) <= (CHANNEL_BUFFER_SIZE - input_buffer_watermark) :
-//					   1'b0;
   
   always @(posedge clk) begin
     if (reset || afu_reset) begin
@@ -2918,7 +2845,6 @@ endgenerate
       current_in_som <= 1;
       current_in_message_id <= 12'h000;  // message IDs per channel buffer: 256. Yet, the counter is 12 bits
       input_buffer_write <= 0;
-//      input_buffer_eth_write <= 0;
       input_buffer_meta_write <= 0;
       input_buffer_wren <= 1'b1; // input buffer write port is enabled by default. TBD: Power optimization: Consider enabling upon need only
       write_eth_header = 1'b0;
@@ -2937,7 +2863,6 @@ endgenerate
 	  begin
 	    current_in_message_ok <= 1'b0;
 	    input_buffer_write <= 0;
-//	    input_buffer_eth_write <= 0;
 	    input_buffer_meta_write <= 0;
 	    update_channel_in_regs <= 0;
 	    pci2sbu_ready <= 0;
@@ -2987,8 +2912,6 @@ endgenerate
 	    hist_pci2sbu_eompacket_event_size <= 16'h0000;
 	    hist_pci2sbu_eompacket_event_chid <= current_in_chid;
 	    hist_pci2sbu_eompacket_event <= 1'b0;
-//	    hist_pci2sbu_message_size <= 16'h0000;
-	    hist_pci2sbu_message_event_chid <= current_in_chid;
 	    hist_pci2sbu_message_event <= 1'b0;
 
 	    // An Ethernet packet: Sample the header for a later header update
@@ -3178,7 +3101,6 @@ endgenerate
 	PACKET_IN_WAIT_WRITE:
 	  begin
 	    input_buffer_write <= 0;
-//	    input_buffer_eth_write <= 0;
 	    input_buffer_meta_write <= 0;
 	    pci2sbu_ready <= 0;
 
@@ -3199,7 +3121,6 @@ endgenerate
 	      // Current channel variables (tail, som, ...)
 	      begin
 		// Packet has ended. update the channel related variables. If 
-//		packet_in_progress <= 1'b0;
 		hist_pci2sbu_packet_event <= 1'b1;
 
 
@@ -3229,7 +3150,6 @@ endgenerate
 		    // 2. It has a valid zuc command
 		    // 3. Its length field (header[495:480] matches the actual length
 		    // 4. The message length <= 9KB
-//		    if (~current_in_mask_message_id && current_in_zuccmd && (current_in_message_lines == current_in_flits) && (current_in_flits <= 10'h090))
 		    if (current_in_zuccmd && (current_in_message_lines == current_in_flits) && (current_in_flits <= 10'h090))
 		      begin
 			current_in_message_ok <= 1'b1;
@@ -3246,7 +3166,6 @@ endgenerate
 		    if (current_in_illegal_cmd)
 		      current_in_message_status[0] <= 1'b1; // Non zuc command encountered
 
-//		    if (({6'b0, current_in_message_lines}) != (current_in_message_size & 16'hffc0 >> 6) + ((current_in_message_size & 16'h003f) > 0 ? 1 : 0))
 		    if (current_in_message_lines != current_in_flits)
 			current_in_message_status[1] <= 1'b1; // 
 
@@ -3344,7 +3263,6 @@ endgenerate
 	    current_in_message_status_update <= 1'b0;
 	    packet_in_progress <= 1'b0;
 	    input_buffer_write <= 0;
-//	    input_buffer_eth_write <= 0;
 	    input_buffer_meta_write <= 0;
 	    pci2sbu_ready <= 0;
 	    update_channel_in_regs <= 1'b0;
@@ -3899,9 +3817,6 @@ endgenerate
 	    current_fifo_in_message_metadata <= input_buffer_meta_rdata[47:0];
 
 	    // Sample message size and cmd, depending on the header type in input_buffer_data[]
-//	    if (input_buffer_rdata[515])
-	      // RDMA RC header
-//	      begin
 	    current_fifo_in_message_size <= input_buffer_meta_rdata[39:24] + input_buffer_rdata[515] ? 'd64 : 'd128; // Adding the header(s) length
 	    current_fifo_in_message_words <= {2'b0, input_buffer_meta_rdata[39:26]} + (input_buffer_meta_rdata[25:24] > 0); // Message size in 32b ticks
 	    current_fifo_in_message_lines <= input_buffer_meta_rdata[39:30] + (input_buffer_meta_rdata[29:24] > 0); // Message size in 512b ticks
@@ -4025,12 +3940,6 @@ endgenerate
 		message_data_valid  <= 1'b0;
 		module_in_valid  <= 1'b0;
 		
-//		if (current_fifo_in_message_size <= FIFO_LINE_SIZE || input_buffer_rdata[513])
-		  // 'end_of_message' == Last 64 bytes (or less) have been read
-		  // end_of_message indication takes into accout the exact message size being read, as specified in current_fifo_in_message_size
-		  // Anyway, full 512b lines are always read, the message_size alignment.
-		  // Just in case: Added another termination condition: EOM is set.
-		  // to cover for a potential length mismatch between *message_size and actual size
 		if (current_out_last)
 		  // end of message == EOM indication from input buffer metadata, input_buffer_data[513] 
 		  // Using the EOM termination condition rather than *message_count, to avoid lines left over in input_buffer,
@@ -4048,7 +3957,6 @@ endgenerate
 		    // ??? TBD: can we back-to-back read from input buffer, write to fifo_in?
 		    // If not, then add here a read/write settle state of 1 clock long
 		    // message_out_nstate <= CHANNEL_OUT_READ-WRITE-SETTLE;
-//		    message_out_nstate <= CHANNEL_OUT_READ;
 		  end
 	      end
 
@@ -4075,11 +3983,6 @@ endgenerate
 		// wait at least 1 clock, before incrementing head pointer
 		message_afubypass_valid  <= 1'b0;
 
-//		if (current_fifo_in_message_size <= FIFO_LINE_SIZE)
-		  // 'end_of_message' == Last 64 bytes (or less) have been read
-		  // end_of_message indication takes into accout the exact message size being read, as specified in current_fifo_in_message_size
-		  // Anyway, full 512b lines are always read, the message_size alignment
-
 		if (current_out_last)
 		  // To end the bypass, we rely on EOM indication rather than on current_fifo_in_message_size,
 		  // since the *size parameter extracted from the message header might not match the actual mesasge size.
@@ -4093,8 +3996,6 @@ endgenerate
 		    // Keep bypassing until end of message
 		    // The read pointer is incremented modulo channel_buffer size, to wrap around 9th bit
 		    current_fifo_in_message_size <= current_fifo_in_message_size - FIFO_LINE_SIZE;
-		    // 1 cycle read latency:
-//		    message_out_nstate <= CHANNEL_OUT_READ;
 		  end
 	      end
 	    else
@@ -4303,7 +4204,6 @@ endgenerate
   // 2. fifox_out_last_message_id is the last written (to sbu2pci) message ID for channel x 
   assign fifo0_out_chid = fifo_out_status[0][7:4];
   assign fifo0_out_message_id = fifo_out_data[0][19:8];
-//  assign fifo0_out_ignored_message_id = fifo_out_data[0][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo0_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo0_out_chid) & 16'h0001) == 16'h0001) || fifo0_out_message_id == 0) ? 1'b0 : 1'b1;
 
   // Calculating the next expected message_id:
@@ -4321,7 +4221,6 @@ endgenerate
 
   assign fifo1_out_chid = fifo_out_status[1][7:4];
   assign fifo1_out_message_id = fifo_out_data[1][19:8];
-//  assign fifo1_out_ignored_message_id = fifo_out_data[1][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo1_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo1_out_chid) & 16'h0001) == 16'h0001) || fifo1_out_message_id == 0) ? 1'b0 : 1'b1;
   assign fifo1_out_expected_message_id = (fifo1_out_last_message_id[11:0] == 12'hfff) ? 12'h001 : fifo1_out_last_message_id[11:0] + 1;
   assign fifo1_out_message_id_ok = (fifo1_out_last_message_id[15]) ? (fifo1_out_message_id == fifo1_out_expected_message_id) : 1'b1;
@@ -4329,7 +4228,6 @@ endgenerate
 
   assign fifo2_out_chid = fifo_out_status[2][7:4];
   assign fifo2_out_message_id = fifo_out_data[2][19:8];
-//  assign fifo2_out_ignored_message_id = fifo_out_data[2][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo2_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo2_out_chid) & 16'h0001) == 16'h0001) || fifo2_out_message_id == 0) ? 1'b0 : 1'b1;
   assign fifo2_out_expected_message_id = (fifo2_out_last_message_id[11:0] == 12'hfff) ? 12'h001 : fifo2_out_last_message_id[11:0] + 1;
   assign fifo2_out_message_id_ok = (fifo2_out_last_message_id[15]) ? (fifo2_out_message_id == fifo2_out_expected_message_id) : 1'b1;
@@ -4337,7 +4235,6 @@ endgenerate
 
   assign fifo3_out_chid = fifo_out_status[3][7:4];
   assign fifo3_out_message_id = fifo_out_data[3][19:8];
-//  assign fifo3_out_ignored_message_id = fifo_out_data[3][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo3_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo3_out_chid) & 16'h0001) == 16'h0001) || fifo3_out_message_id == 0) ? 1'b0 : 1'b1;
   assign fifo3_out_expected_message_id = (fifo3_out_last_message_id[11:0] == 12'hfff) ? 12'h001 : fifo3_out_last_message_id[11:0] + 1;
   assign fifo3_out_message_id_ok = (fifo3_out_last_message_id[15]) ? (fifo3_out_message_id == fifo3_out_expected_message_id) : 1'b1;
@@ -4345,7 +4242,6 @@ endgenerate
 
   assign fifo4_out_chid = fifo_out_status[4][7:4];
   assign fifo4_out_message_id = fifo_out_data[4][19:8];
-//  assign fifo4_out_ignored_message_id = fifo_out_data[4][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo4_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo4_out_chid) & 16'h0001) == 16'h0001) || fifo4_out_message_id == 0) ? 1'b0 : 1'b1;
   assign fifo4_out_expected_message_id = (fifo4_out_last_message_id[11:0] == 12'hfff) ? 12'h001 : fifo4_out_last_message_id[11:0] + 1;
   assign fifo4_out_message_id_ok = (fifo4_out_last_message_id[15]) ? (fifo4_out_message_id == fifo4_out_expected_message_id) : 1'b1;
@@ -4353,7 +4249,6 @@ endgenerate
 
   assign fifo5_out_chid = fifo_out_status[5][7:4];
   assign fifo5_out_message_id = fifo_out_data[5][19:8];
-//  assign fifo5_out_ignored_message_id = fifo_out_data[5][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo5_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo5_out_chid) & 16'h0001) == 16'h0001) || fifo5_out_message_id == 0) ? 1'b0 : 1'b1;
   assign fifo5_out_expected_message_id = (fifo5_out_last_message_id[11:0] == 12'hfff) ? 12'h001 : fifo5_out_last_message_id[11:0] + 1;
   assign fifo5_out_message_id_ok = (fifo5_out_last_message_id[15]) ? (fifo5_out_message_id == fifo5_out_expected_message_id) : 1'b1;
@@ -4361,7 +4256,6 @@ endgenerate
 
   assign fifo6_out_chid = fifo_out_status[6][7:4];
   assign fifo6_out_message_id = fifo_out_data[6][19:8];
-//  assign fifo6_out_ignored_message_id = fifo_out_data[6][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo6_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo6_out_chid) & 16'h0001) == 16'h0001) || fifo6_out_message_id == 0) ? 1'b0 : 1'b1;
   assign fifo6_out_expected_message_id = (fifo6_out_last_message_id[11:0] == 12'hfff) ? 12'h001 : fifo6_out_last_message_id[11:0] + 1;
   assign fifo6_out_message_id_ok = (fifo6_out_last_message_id[15]) ? (fifo6_out_message_id == fifo6_out_expected_message_id) : 1'b1;
@@ -4369,7 +4263,6 @@ endgenerate
 
   assign fifo7_out_chid = fifo_out_status[7][7:4];
   assign fifo7_out_message_id = fifo_out_data[7][19:8];
-//  assign fifo7_out_ignored_message_id = fifo_out_data[7][19:8] > 0 ? 1'b1 : 1'b0;
   assign fifo7_out_ignored_message_id = ((((afu_ctrl2[15:0] >> fifo7_out_chid) & 16'h0001) == 16'h0001) || fifo7_out_message_id == 0) ? 1'b0 : 1'b1;
   assign fifo7_out_expected_message_id = (fifo7_out_last_message_id[11:0] == 12'hfff) ? 12'h001 : fifo7_out_last_message_id[11:0] + 1;
   assign fifo7_out_message_id_ok = (fifo7_out_last_message_id[15]) ? (fifo7_out_message_id == fifo7_out_expected_message_id) : 1'b1;
@@ -4478,7 +4371,6 @@ endgenerate
 
 		else
 		  begin		
-//		    fifo_out_message_valid_reg <= fifo_out_message_valid_regD; // ???? Is this reg needed?
 		    sbu2pci_out_nstate <= SBU2PCI_OUT_SELECT1;
 		  end
 	      end
@@ -4495,7 +4387,6 @@ endgenerate
 	  begin
 	    // When modules bypass is forced, the actual response command, is overridden
 	    current_response_cmd <= module_in_force_modulebypass ? MESSAGE_CMD_MODULEBYPASS : fifo_out_dataD[47:40];
-//	    current_out_zuccmd <= module_in_force_modulebypass ? 1'b0 : (fifo_out_dataD[47:40] == MESSAGE_CMD_CONF) || (fifo_out_dataD[47:40] == MESSAGE_CMD_INTEG);
 	    current_out_zuccmd <= (fifo_out_dataD[47:40] == MESSAGE_CMD_CONF) || (fifo_out_dataD[47:40] == MESSAGE_CMD_INTEG);
 
 	    current_fifo_out_message_type <= fifo_out_userD;
@@ -4555,7 +4446,6 @@ endgenerate
 	    hist_sbu2pci_response_event_size <= (current_response_cmd == MESSAGE_CMD_INTEG) ? 0 : current_fifo_out_message_size - 64; 
 	    hist_sbu2pci_response_event_chid <= current_fifo_out_chid;
 
-//	    sbu2pci_valid <= 1'b1;
 	    // Sample the Ethernet header
 
 
@@ -4578,7 +4468,6 @@ endgenerate
 	      end
 
 
-//	    if (sbu2pci_axi4stream_rdy && sbu2pci_valid)
 	    if (sbu2pci_axi4stream_rdy)
 	      // Wait here as long as sbu2pci did not capture this line
 	      begin
@@ -4692,7 +4581,6 @@ endgenerate
 		// Keep reading till end of message
 		sbu2pci_valid <= 1'b1;
 		sbu2pci_out_nstate <= SBU2PCI_OUT_NEXT_FLIT;
-//		  end
 	      end // if (sbu2pci_axi4stream_rdy)
 	    
 	    else
@@ -4711,10 +4599,6 @@ endgenerate
 	    if (sbu2pci_axi4stream_rdy & message_afubypass_valid)
 	      begin
 		// sbu2pci data, keep, last are handled by external logic 		
-//		if (current_fifo_out_message_size <= FIFO_LINE_SIZE)
-		  // 'end_of_message' == Last 64 bytes (or less) have been read
-		  // Last message line have been written to sbu2pci
-		  // sch2pci_tlast/tkeep are asserted by separate logic
 		if (message_afubypass_last)
 		  // To end the bypass, we rely on EOM indication rather than on *message_size, since the *size might not match the actual size
 		  begin
@@ -5651,22 +5535,6 @@ blk_mem_SimpleDP_8Kx512b zuc_input_buffer_data (
   .addrb(input_buffer_radrs),              // input wire [12 : 0] addrb
   .doutb(input_buffer_rd)                  // output wire [515 : 0] doutb
   );
-
-// per channel, Ethernet header buffering
-// 64 entries per channel
-// When specific buffer is full, write to main inout_buffer_data is also stalled
-//blk_mem_eth_header_1Kx336b zuc_input_buffer_eth_header (
-//   .clka(clk),                             // input wire clka
-//   .ena(input_buffer_wren),                // input wire ena
-//   .wea(input_buffer_eth_write),           // input wire [0 : 0] wea
-//   .addra(input_buffer_eth_wadrs),         // input wire [9 : 0] addra
-//   .dina(input_buffer_eth_wdata),          // input wire [335 : 0] dina
-//   .clkb(clk),                             // input wire clkb
-//   .enb(input_buffer_rden),                // input wire enb
-//   .addrb(input_buffer_eth_radrs),         // input wire [9 : 0] addrb
-//   .doutb(input_buffer_eth_rdata)          // output wire [335 : 0] doutb
-//   );
-
 
 // AFU input buffer metadata, 8K x 48b (11 x 36Kb BRAMs):
 // Writing: All writes to input_buffer_data are also written here, using same wadrs and write signals.

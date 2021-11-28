@@ -104,7 +104,6 @@ module zuc_module (
   wire [15:0] fifo_out_free_count;
   wire 	      fifo_out_free;
   reg [31:0]  zm_mac_reg;
-//  reg [63:0]  zm_keystream64;
   reg [95:0]  zm_keystream96;
   reg [31:0]  zm_keystreamQ;
   reg [15:0]  zm_in_message_size;
@@ -256,7 +255,6 @@ module zuc_module (
   always @(posedge zm_clk) begin
     if (zm_reset) begin
       zuc_module_nstate <= ZM_IDLE;
-//      zuc_module_id <= 0;
       zm_in_message_size <= 16'h000;
       zm_in_message_bits <= 16'h000;
       zm_message_size_inprogress <= 16'h0000;
@@ -272,7 +270,6 @@ module zuc_module (
       zm_bypass_or_header <= 1'b0;
       zm_wait_keystream <= 2'b11;
       zm_mac_reg <= 32'h00000000;
-//      zm_keystream64[63:0] <= 64'h0000000000000000;
       zm_keystream96[95:0] <= 96'h0000000000000000;
       zm_out_status_data <= 8'h00;
       zm_out_status_valid <= 1'b0;
@@ -529,7 +526,6 @@ module zuc_module (
 		  
 		  zm_go <= 1'b0; // Stop zuc_core
 		  zm_done <= 1'b1;
-//		  zm_update_module_regsQ <= 1'b1; // update zuc module message_count
 		  zm_in_readyQ <= 1'b0;
 		  zm_progress <= {2'b00, (zm_text_32b_index == 0) ? 6'h10 : zm_text_32b_index, zm_cmd[3:0], 4'b0010}; // Report last flit
 		  zm_response_status <= 4'h0; // OK status
@@ -572,8 +568,6 @@ module zuc_module (
 		      // Still within the message line:
 		      // 1. drop latter 32b from text_in_reg
 		      // 2. Accumulate zm_keystream into accum_reg
-//		      zm_text_in_reg <= {32'h00000000, zm_text_in_reg[511:32]}; // 32b shift right
-//		      zm_out_accum_reg <= {zm_out_accum_reg[479:0], zm_keystream ^ zm_text_in_reg[31:0]};
 
 		      case (zm_text_32b_index)
 			0:
@@ -720,7 +714,6 @@ module zuc_module (
 		  zm_message_size_inprogress <= zm_message_size_inprogress + 1'b1;
 		  zm_in_message_bits <= zm_in_message_bits - 'd32; // Keeping track of remaining message bits to handle
 		  
-		  //		      zm_keystream64 <= {zm_keystream, zm_keystream64[63:32]};
 		  zuc_module_nstate <= ZM_RUN_I;
 		  
 		  if (zm_text_32b_index >= 15)
@@ -747,8 +740,6 @@ module zuc_module (
 	    begin
 	      // zuc_core finished generating keystream words for MAC calc
 	      // Here, last generated zm_keystream is loaded 
-//	      zm_keystream64 <= {zm_keystream, zm_keystream64[63:32]};
-//	      zm_mac_reg <= zm_mac_reg ^ zm_mac_0_31;
 
 	      zm_go <= 1'b0; // Stop zuc_core
 	      zm_progress <= {8'h00, zm_cmd[3:0], 4'b0000};
@@ -777,7 +768,6 @@ module zuc_module (
 
 	      // Final MAC calculation: 
 	      zm_mac_reg <= zm_mac_reg ^ zm_keystream96[31:0] ^ zm_keystream96_lastkey[95:64];
-//	      zm_update_module_regsQ <= 1'b1; // update zuc module message_count
 
 	      // Write MAC to fifo_out
 	      // No need to check zuc_out_ready since we already guaranteed sufficient space in fifo_out
@@ -801,10 +791,6 @@ module zuc_module (
 		begin
 		  zm_bypass_or_header_valid <= 1'b1;
 		  
-//		  if (zm_in_message_size <= FIFO_LINE_SIZE)
-		    // 'end_of_message' == Last 64 bytes (or less) have been read
-		    // end_of_message indication takes into accout the exact message size being read, as specified in current_out_message_size
-		    // Anyway, full 512b lines are always read, the message_size alignment
 		  if (zm_in_last)
 		    // TO end the bypass, we rely on EOM indication, rather than on *message_size, since the *size might not match the actual message size.
 
@@ -844,7 +830,6 @@ module zuc_module (
 	      
 	      // Write C/I operation status. Wait if status fifo not ready
 	      zm_core_valid <= 1'b0;
-//	      zm_core_last <= 1'b0;
 	      zm_bypass_or_header_valid <= 1'b0;
 	      zm_progress <= {8'h00, zm_cmd[3:0], 4'b0000};
 	      if (zm_out_status_ready)
@@ -956,13 +941,10 @@ module zuc_module (
 		             zm_out_accum_reg;                                     // CONF response
  
   assign zm_test_mode_data_valid = zm_in_test_mode ?
-//				   (zm_test_mode_lfsr_valid || zm_test_mode_keystream_valid || zm_test_mode_text_in_valid) :
 				   (zm_test_mode_lfsr_valid || zm_test_mode_keystream_valid) :
 				   1'b0;
   assign zm_test_mode_data = zm_test_mode_lfsr_valid ? zm_test_mode_lfsr :
 			     zm_test_mode_keystream;
-//			     ? zm_test_mode_keystream :
-//			     zm_text_in_reg;
 
   assign zm_out_keep = zm_bypass_or_header ? zm_bypass_keep : zm_core_keep;
   assign zm_out_last = zm_bypass_or_header ? zm_in_last : zm_core_last;

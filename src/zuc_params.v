@@ -29,7 +29,6 @@ localparam
 // 512b sampling buffers:
 localparam
   SAMPLE_FIFO_SIZE       = 8*1024,
-  //  SAMPLE_FIFO_SIZE       = 'd16, // Testing: Experimening with a smaller fifo
   SAMPLE_FIFO_WATERMARK  = SAMPLE_FIFO_SIZE - 'd8;
 
 
