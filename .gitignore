@@ -1,0 +1,16 @@
+/Bitstreams/
+/Implement/
+/Synth/
+
+tags
+\#*\#
+*~
+.*.swp
+vivado*.jou
+vivado*.log
+vivado*.str
+tight_setup_hold_pins.txt
+xvlog.log
+xvlog.pb
+src/flc.dcp
+.Xil
