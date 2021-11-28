@@ -48,16 +48,7 @@ module zuc_histo (
   wire event_update;
   wire [3:0] event_chid;
   wire [15:0] event_size;
-//  reg 	      hist_event_clear_chid;
-//  reg [3:0]   hist_event_clear_chid_num;
-//  reg 	      hist_event_clear_array;
-//  reg [2:0]   hist_event_clear_array_num;
-//  wire 	      hist_event_clear_pending;
-//  wire 	      hist_event_clear_done;
 
-//  assign  hist_event_clear_pending = hist_event_clear_chid + hist_event_clear_array;
-//  assign  hist_event_chid = hist_event_clear_chid ? hist_event_clear_chid_num : hist_event_update_chid_num ;
-  
   // updates_fifo updates fifo:
   wire [19:0] events_fifo_din;
   reg 	      events_fifo_wren;
@@ -187,34 +178,6 @@ module zuc_histo (
   assign event_size = events_fifo_dout[15:0];
 
 
-//  always @(posedge hist_clk) begin
-//    if (hist_reset)
-//      begin
-// 	events_fifo_rden <= 1'b0;
-//	event_update <= 1'b0;
-//      end
-//    else
-//      begin
-//	if (~events_fifo_empty && ~events_fifo_rd_rst_busy && hist_ready && ~events_fifo_rden)
-//	  begin
-// 	    events_fifo_rden <= 1'b1;
-//	  end
-//	else if (events_fifo_rden)
-// 	    events_fifo_rden <= 1'b0;
-//
-//	if (events_fifo_valid)
-//	  begin
-//	    event_update <= 1'b1;
-//	    event_chid <= events_fifo_dout[19:16];
-//	    event_size <= events_fifo_dout[15:0];
-//	  end
-//	else if (event_update)
-//	    event_update <= 1'b0;
-//      end
-//  end
-  
-
-
 // Find the approproate bucket_num for the given event size
   always @(*) begin
     if (event_size == 0)
@@ -318,7 +281,6 @@ module zuc_histo (
 	    else
 	      begin
 		bucket_wren <= 1'b1;
-//		bucket_din <= {bucket_din[27:0], bucket_din[31:28]};
 		bucket_adrs <= bucket_adrs + 10'h001; 
 		hist_nstate <= HIST_CLEAR;
 	      end

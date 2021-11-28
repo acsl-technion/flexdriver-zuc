@@ -31,29 +31,8 @@ module zuc_core (
   reg [3:0] 	      zc_nstate;
   reg 		      zc_init;
   reg 		      zc_lfsrwithinit;
-//  reg 		      zc_lfsr_valid;
   
 // iv & key elements
-// zuc_iv* and zuc_key* bytes are swapped, based on Haggai's request (12-Nov-2020:
-// "Reversing in software requires additional CPU cycles. The existing code in DPDK and its applications uses a certain order with the existing API. If we want to reverse in software it means reversing the values that are passed to the driver. For the key we could do it once and save the result, but the IV is passed on every so it would waste cycles for every crypto operation"
-  
-//  wire [7:0] 	      zuc_iv0  = zc_iv[  7:  0];
-//  wire [7:0] 	      zuc_iv1  = zc_iv[ 15:  8];
-//  wire [7:0] 	      zuc_iv2  = zc_iv[ 23: 16];
-//  wire [7:0] 	      zuc_iv3  = zc_iv[ 31: 24];
-//  wire [7:0] 	      zuc_iv4  = zc_iv[ 39: 32];
-//  wire [7:0] 	      zuc_iv5  = zc_iv[ 47: 40];
-//  wire [7:0] 	      zuc_iv6  = zc_iv[ 55: 48];
-//  wire [7:0] 	      zuc_iv7  = zc_iv[ 63: 56];
-//  wire [7:0] 	      zuc_iv8  = zc_iv[ 71: 64];
-//  wire [7:0] 	      zuc_iv9  = zc_iv[ 79: 72];
-//  wire [7:0] 	      zuc_iv10 = zc_iv[ 87: 80];
-//  wire [7:0] 	      zuc_iv11 = zc_iv[ 95: 88];
-//  wire [7:0] 	      zuc_iv12 = zc_iv[103: 96];
-//  wire [7:0] 	      zuc_iv13 = zc_iv[111:104];
-//  wire [7:0] 	      zuc_iv14 = zc_iv[119:112];
-//  wire [7:0] 	      zuc_iv15 = zc_iv[127:120];
-
   wire [7:0] 	      zuc_iv15 = zc_iv[  7:  0];
   wire [7:0] 	      zuc_iv14 = zc_iv[ 15:  8];
   wire [7:0] 	      zuc_iv13 = zc_iv[ 23: 16];
@@ -71,22 +50,6 @@ module zuc_core (
   wire [7:0] 	      zuc_iv1  = zc_iv[119:112];
   wire [7:0] 	      zuc_iv0  = zc_iv[127:120];
 
-//  wire [7:0] 	      zuc_k0  = zc_key[  7:  0];
-//  wire [7:0] 	      zuc_k1  = zc_key[ 15:  8];
-//  wire [7:0] 	      zuc_k2  = zc_key[ 23: 16];
-//  wire [7:0] 	      zuc_k3  = zc_key[ 31: 24];
-//  wire [7:0] 	      zuc_k4  = zc_key[ 39: 32];
-//  wire [7:0] 	      zuc_k5  = zc_key[ 47: 40];
-//  wire [7:0] 	      zuc_k6  = zc_key[ 55: 48];
-//  wire [7:0] 	      zuc_k7  = zc_key[ 63: 56];
-//  wire [7:0] 	      zuc_k8  = zc_key[ 71: 64];
-//  wire [7:0] 	      zuc_k9  = zc_key[ 79: 72];
-//  wire [7:0] 	      zuc_k10 = zc_key[ 87: 80];
-//  wire [7:0] 	      zuc_k11 = zc_key[ 95: 88];
-//  wire [7:0] 	      zuc_k12 = zc_key[103: 96];
-//  wire [7:0] 	      zuc_k13 = zc_key[111:104];
-//  wire [7:0] 	      zuc_k14 = zc_key[119:112];
-//  wire [7:0] 	      zuc_k15 = zc_key[127:120];
   wire [7:0] 	      zuc_k15  = zc_key[  7:  0];
   wire [7:0] 	      zuc_k14  = zc_key[ 15:  8];
   wire [7:0] 	      zuc_k13  = zc_key[ 23: 16];
@@ -151,7 +114,6 @@ module zuc_core (
   always @(posedge zc_clk) begin
     if (zc_reset) begin
       zc_request <= 1'b0;
-//      zc_lfsrinit_count <= 6'd33;
     end
     else begin
       zc_goQ <= zc_go;
@@ -353,10 +315,6 @@ module zuc_core (
 //BRC_X3 = ((LFSR_S2 & 0xFFFF) << 16) | (LFSR_S0 >> 15);
 //}
 
-// assign br_x0 = ((lfsr_s15 & 32'h7FFF8000) <<  1) | (lfsr_s14  & 32'h0000FFFF);
-// assign br_x1 = ((lfsr_s11 & 32'h0000FFFF) << 16) | (lfsr_s9  >> 15);
-// assign br_x2 = ((lfsr_s7  & 32'h0000FFFF) << 16) | (lfsr_s5  >> 15);
-// assign br_x3 = ((lfsr_s2  & 32'h0000FFFF) << 16) | (lfsr_s0  >> 15);
   assign br_x0 = {lfsr_s15[30:15], lfsr_s14[15:0]};
   assign br_x1 = {lfsr_s11[15:0],  lfsr_s9[30:15]};
   assign br_x2 = {lfsr_s7[15:0],   lfsr_s5[30:15]};
@@ -469,12 +427,10 @@ module zuc_core (
 
   always @(posedge zc_clk) begin
     if (zc_reset) begin
-//      f_w  <= 32'h00000000;
       f_r1 <= 32'h00000000;
       f_r2 <= 32'h00000000;
     end
     else begin
-//      f_w <= (br_x0 ^ f_r1) + f_r2;
       zc_keystream <= br_x3 ^ ((br_x0 ^ f_r1) + f_r2);
       if (zc_init)
 	begin
@@ -684,16 +640,6 @@ sbox_s1 zuc_s13 (
 		    .sum(lfsr_s16_sum),
 		    .carry(lfsr_s16_carry)
 		    );
-  /*
-   lfsr_s16_sc1 = {4'h0, lfsr_s15p15} +
-   {4'h0, lfsr_s13p17} +
-   {4'h0, lfsr_s10p21} +
-   {4'h0, lfsr_s4p20} +
-   {4'h0, lfsr_s0p8} +
-   {4'h0, lfsr_s0} +
-   {4'h0, f_w_cond};
-   */
-  
   always @(*)
 	   begin
 	     lfsr_s16_sc1 = lfsr_s16_sum + {lfsr_s16_carry[34:0], 1'b0};

@@ -144,7 +144,6 @@ module zuc_sample_buf (
   reg [1:0]  axi_state;
   reg 	     axi4lite_arready;
   reg 	     axi4lite_rvalid;
-//  reg [31:0] axi4lite_fifo_rdata;
   reg [3:0]  data_fifo_drop_count;
   wire 	     fifo_lowest_dw_is_read;
   
@@ -190,8 +189,6 @@ module zuc_sample_buf (
 		  // 'h<base>40   {fifo_data_count, fifo_dout[515:511]}
 		  begin 
 		    axi4lite_arready <= 1'b0;
-//		    axi4lite_rvalid <= 1'b1;
-//		    axi4lite_fifo_rdata <= data_fifo_valid ? data_fifo_selected_dw : 32'hdeadf00d;
 		    axi_state <= 2'b01;
 		  end
 	      end
