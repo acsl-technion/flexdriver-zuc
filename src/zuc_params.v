@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021 Gabi Malka.
+ * Licensed under the 2-clause BSD license, see LICENSE for details.
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
 //`define TWO_SLICES
 // AXI4LITE_EN is used in zuc_top.v (image build top)
 `define AXI4LITE_EN

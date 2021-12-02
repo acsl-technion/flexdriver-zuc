@@ -1,5 +1,8 @@
-// zuc_afu.v
-// 3-May-2020
+/*
+ * Copyright (c) 2021 Gabi Malka.
+ * Licensed under the 2-clause BSD license, see LICENSE for details.
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
 module zuc_afu(
 	       clk,
 	       reset,
