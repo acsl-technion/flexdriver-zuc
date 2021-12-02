@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021 Gabi Malka.
+ * Licensed under the 2-clause BSD license, see LICENSE for details.
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
 // zuc module
 // A message is read from fifo_in and delivered to zuc core, then aggregated into fifo_out.
 // This scheme is triggered if there is at least one full message in fifo_in, and there is sufficient space in fifo_out to hold the resulting response.

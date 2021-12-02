@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021 Gabi Malka.
+ * Licensed under the 2-clause BSD license, see LICENSE for details.
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
 // ZUC 512b axi4stream sampling buffer
 module zuc_sample_buf (
 		 input wire 	    sample_clk,
